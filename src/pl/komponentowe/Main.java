@@ -9,14 +9,17 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        int choice = 0;
+
         System.out.println("Authors: ");
         System.out.println("Kacper Swiercz 224443");
         System.out.println("Patryk Kolanek 224333");
 
         System.out.println("1. Record voice");
         System.out.println("2. Play recording");
+        choice = in.nextInt();
 
-        if (1 == in.nextInt()) {
+        if (1 == choice) {
             AudioFormat audioFormat = new AudioFormat(8000, 8, 1, true, true);
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, audioFormat);
 
@@ -45,8 +48,17 @@ public class Main {
 
             thread.start();
 
-        } else if (2 == in.nextInt()) {
+        } else if (2 == choice) {
+            File file = new File("record.wav");
 
+            try {
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(file));
+                clip.start();
+                Thread.sleep(clip.getMicrosecondLength() / 1000);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }
